@@ -1,6 +1,6 @@
 {
   "name": "ember-sprite",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An ember addon which generates sprite sheets",
   "private": false,
   "main": "index.js",
@@ -20,8 +20,11 @@
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "bguiz",
-  "license": "MIT",
+  "author": "Brendan Graetz <redacted@my.email> (http://bguiz.com)",
+  "license": {
+    "type": "GPL v3",
+    "url": "http://opensource.org/licenses/GPL-3.0"
+  },
   "devDependencies": {
     "body-parser": "^1.2.0",
     "broccoli-asset-rev": "0.1.1",
@@ -35,7 +38,13 @@
     "glob": "^4.0.5"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "ember-cli",
+    "ember",
+    "image",
+    "css",
+    "sprite",
+    "spritesheet"
   ],
   "dependencies": {
     "broccoli-concat": "0.0.11",
