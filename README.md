@@ -1,25 +1,32 @@
-# Ember-sprite
+# ember-sprite
 
-This README outlines the details of collaborating on this Ember addon.
+This is an ember addon, that generates a sprite sheet from a folder of images.
+A sprite sheet consists of a single CSS file and a single image file.
 
-## Installation
+It uses [broccoli-sprite](https://github.com/bguiz/broccoli-sprite) to do so,
+and you can read more details there.
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+This module's purpose is to allow you to use broccoli-sprite within an
+[ember-cli](http://www.ember-cli.com/) application.
 
-## Running
+## Usage
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+As with any other ember addon, you simply need to add it as a dependency of your ember-cli app.
 
-## Running Tests
+    npm install --save-dev ember-sprite
 
-* `ember test`
-* `ember test --server`
+That is all!
 
-## Building
+## Road map
 
-* `ember build`
+- [x] Remove need to link additional stylesheet from `index.html`
+  - by concatenating the sprite sheet's CSS with the main app's CSS
+- [ ] Rerun upon file changes which trigger livereload
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+## Author
+
+Brendan Graetz
+
+## Licence
+
+GPLv3
