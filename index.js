@@ -1,35 +1,35 @@
 'use strict';
 
+var util = require('util');
 var brocMergeTrees = require('broccoli-merge-trees');
 var brocSprite = require('broccoli-sprite');
 var brocConcat = require('broccoli-concat');
 var brocDelete = require('broccoli-file-remover');
+var brocPickFiles = require('broccoli-static-compiler');
 
 module.exports.name = 'ember-sprite';
 
-module.exports.treeFor = function treeFor(treeName) {
-    console.log('ember-sprite treeFor', treeName);
-    this.options = this.app.options.sprite || {};
+module.exports.treeFor = function treeFor( /*inTree*/ ) {};
 
-    if (treeName === 'public') {
-        var inTree = brocMergeTrees(['public']);
-        var spriteTree = brocSprite(inTree, this.options);
-
-        var outTree = spriteTree;
-        return outTree;
-    }
-
-    return; //look ma, no assets!
-};
-
-module.exports.postprocessTree = function postprocessTree(type, workingTree) {
-    console.log('ember-sprite postprocessTree', arguments);
-
+module.exports.postprocessTree =
+function postprocessTree(type, workingTree) {
     if (type === 'all') {
+        var spriteTree = brocPickFiles(workingTree, {
+            srcDir: '/',
+            files: this.app.options.sprite.src,
+            destDir: '/',
+        });
+        console.log('spriteTree', util.inspect(workingTree, false, 6, true));
+        spriteTree = brocSprite(spriteTree, this.app.options.sprite);
+        workingTree = brocMergeTrees([
+            workingTree,
+            spriteTree
+        ]);
+
         //sprites.css is appended to app.css,
         //so that two separate styles sheets do not need to get linked from index.html
         var appCssFile = 'assets/' + this.app.options.name + '.css';
-        var spriteCssFile = this.options.stylesheetPath;
+        var spriteCssFile = this.app.options.sprite.stylesheetPath;
         var treeConcatCss = brocConcat(workingTree,  {
             inputFiles: [
                 appCssFile,

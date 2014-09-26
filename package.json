@@ -1,6 +1,6 @@
 {
   "name": "ember-sprite",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An ember addon which generates sprite sheets",
   "private": false,
   "main": "index.js",
@@ -50,6 +50,7 @@
     "broccoli-concat": "0.0.11",
     "broccoli-file-remover": "^0.2.3",
     "broccoli-merge-trees": "^0.1.4",
+    "broccoli-sprite": "^0.1.0",
     "broccoli-static-compiler": "^0.1.4"
   }
 }
