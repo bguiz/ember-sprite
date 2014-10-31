@@ -28,7 +28,7 @@ function postprocessTree(type, workingTree) {
 
         //sprites.css is appended to app.css,
         //so that two separate styles sheets do not need to get linked from index.html
-        var appCssFile = 'assets/' + this.app.options.name + '.css';
+        var appCssFile = 'assets/' + this.app.name + '.css';
         var spriteCssFile = this.app.options.sprite.stylesheetPath;
         var treeConcatCss = brocConcat(workingTree,  {
             inputFiles: [
