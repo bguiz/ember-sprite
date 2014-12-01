@@ -17,8 +17,7 @@ As with any other ember addon, you simply need to add it as a dependency of your
 
 That is all!
 
-This has only been tested with ember-cli v0.0.46,
-be sure to upgrade your apps to this version of ember-cli, or later.
+This has been tested with ember-cli v0.46 and v0.1.2; be sure to upgrade your apps to the newest version :)
 
 ## Configuration
 
