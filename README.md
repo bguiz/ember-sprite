@@ -49,9 +49,9 @@ you can configure your app like so:
           },
           layoutOptions: {
             padding: 2,
-          },
-        },
-    }});
+          }
+        }
+    });
 
 ## Road map
 
