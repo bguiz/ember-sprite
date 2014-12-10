@@ -59,9 +59,13 @@ you can configure your app like so:
   - by concatenating the sprite sheet's CSS with the main app's CSS
 - [ ] Rerun upon file changes which trigger livereload
 
-## Author
+## Contributors
 
-Brendan Graetz
+Maintained by [Brendan Graetz](http://github.com/bguiz)
+
+Additional contributions from:
+
+- [jmonster](https://github.com/jmonster)
 
 ## Licence
 
