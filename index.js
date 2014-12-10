@@ -19,7 +19,9 @@ function postprocessTree(type, workingTree) {
             files: this.app.options.sprite.src,
             destDir: '/',
         });
-        console.log('spriteTree', util.inspect(workingTree, false, 6, true));
+        if (!!this.app.options.sprite.debug) {
+            console.log('spriteTree', util.inspect(workingTree, false, 6, true));
+        }
         spriteTree = brocSprite(spriteTree, this.app.options.sprite);
         workingTree = brocMergeTrees([
             workingTree,
