@@ -15,38 +15,52 @@ module.exports.treeFor = function treeFor( /*inTree*/ ) {};
 module.exports.postprocessTree =
 function postprocessTree(type, workingTree) {
     if (type === 'all') {
-        var spriteTree = brocPickFiles(workingTree, {
+        var rasterSpriteOptions = this.app.options.sprite;
+        var spriteTree = rasterSpriteOptions && brocPickFiles(workingTree, {
+            files: rasterSpriteOptions.src,
             srcDir: '/',
-            files: this.app.options.sprite.src,
             destDir: '/',
         });
+        var vectorSpriteOptions = this.app.options.vectorSprite;
         var vectorSpriteTree = brocPickFiles(workingTree,  {
+            files: vectorSpriteOptions.src,
             srcDir: '/',
-            files: this.app.options.vectorSprite.src,
             destDir: '/',
         });
-        if (!!this.app.options.sprite.debug) {
+        if ((rasterSpriteOptions && !!rasterSpriteOptions.debug) || (
+            vectorSpriteOptions && !!vectorSpriteOptions.debug)) {
             console.log('spriteTree', util.inspect(workingTree, false, 6, true));
         }
-        spriteTree = brocSprite(spriteTree, this.app.options.sprite);
-        vectorSpriteTree = brocVectorSprite(vectorSpriteTree, this.app.options.vectorSprite);
-        workingTree = brocMergeTrees([
-            workingTree,
-            spriteTree,
-            vectorSpriteTree
-        ]);
+        spriteTree = spriteTree &&
+            brocSprite(spriteTree, rasterSpriteOptions);
+        vectorSpriteTree = vectorSpriteTree &&
+            brocVectorSprite(vectorSpriteTree, vectorSpriteOptions);
+        var treesToMerge = [workingTree];
+        if (spriteTree) {
+            treesToMerge.push(spriteTree);
+        }
+        if (vectorSpriteTree) {
+            treesToMerge.push(vectorSpriteTree);
+        }
+        workingTree = brocMergeTrees(treesToMerge);
 
         //sprites.css is appended to app.css,
         //so that two separate styles sheets do not need to get linked from index.html
         var appCssFile = 'assets/' + (this.app.name || this.app.project.pkg.name) + '.css';
-        var spriteCssFile = this.app.options.sprite.stylesheetPath;
-        var vectorSpriteCssFile = this.app.options.vectorSprite.stylesheetPath;
+        var cssInputFiles = [appCssFile];
+        var cssDeleteFiles = [];
+        if (spriteTree) {
+            cssInputFiles.push(rasterSpriteOptions.stylesheetPath);
+            cssDeleteFiles.push(rasterSpriteOptions.stylesheetPath);
+        }
+        if (vectorSpriteTree) {
+            console.log('vectorSpriteTree', require('util').inspect(vectorSpriteTree, true, 6));
+            var vectorOutput = 'assets/sprite.css';
+            cssInputFiles.push(vectorOutput);
+            cssDeleteFiles.push(vectorOutput);
+        }
         var treeConcatCss = brocConcat(workingTree,  {
-            inputFiles: [
-                appCssFile,
-                spriteCssFile,
-                vectorSpriteCssFile
-            ],
+            inputFiles: cssInputFiles,
             outputFile: '/'+appCssFile,
             wrapInFunction: false,
         });
@@ -57,9 +71,7 @@ function postprocessTree(type, workingTree) {
             overwrite: true,
         });
         workingTree = brocDelete(workingTree, {
-            files: [
-                spriteCssFile
-            ],
+            files: cssDeleteFiles,
         });
     }
 
