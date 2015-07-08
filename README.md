@@ -11,13 +11,19 @@ This module's purpose is to allow you to use broccoli-sprite within an
 
 ## Usage
 
-As with any other ember addon, you simply need to add it as a dependency of your ember-cli app.
+As with any other ember addon, you simply need to run the install command:
 
-    npm install --save-dev ember-sprite
+```sh
+ember install ember-sprite
+```
+
+In Ember CLI versions < 0.2.3, the install command should be:
+
+```sh
+ember install:addon ember-sprite
+```
 
 That is all!
-
-This has been tested with ember-cli v0.46 and v0.1.2; be sure to upgrade your apps to the newest version :)
 
 ## Configuration
 
