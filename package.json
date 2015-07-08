@@ -1,6 +1,6 @@
 {
   "name": "ember-sprite",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "An ember addon which generates sprite sheets",
   "directories": {
     "doc": "doc",
