@@ -33,14 +33,15 @@ All the configuration options are exactly the same as those in
 The only thing that you need to do in addition is:
 
 - Put your images in the `public` folder (or a subfolder of `public`)
-- Add the options for `broccoli-sprite` under `sprite` when instantiating `EmberApp`:
+- Add an array of sprite options for `broccoli-sprite` under `sprite` when instantiating `EmberApp`: 
 
 For example, if the images you would like to be sprited are in `public/images/sprites`,
 you can configure your app like so:
 
     var app = new EmberApp({
-        /* other options */
-        sprite: {
+      /* other options */
+      sprite: [
+        {
           debug: true,
           src: [
             'images/sprites/**/*.png'
@@ -56,7 +57,11 @@ you can configure your app like so:
           layoutOptions: {
             padding: 2,
           }
+        },
+        {
+          // optional additional sprite
         }
+      ]
     });
 
 ## Road map
