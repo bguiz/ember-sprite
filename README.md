@@ -33,36 +33,64 @@ All the configuration options are exactly the same as those in
 The only thing that you need to do in addition is:
 
 - Put your images in the `public` folder (or a subfolder of `public`)
-- Add an array of sprite options for `broccoli-sprite` under `sprite` when instantiating `EmberApp`: 
+- Add an array of sprite options for `broccoli-sprite` under `sprite` when instantiating `EmberApp`:
 
 For example, if the images you would like to be sprited are in `public/images/sprites`,
-you can configure your app like so:
+you can configure your app, in `Brocfile.js`, like so:
 
-    var app = new EmberApp({
-      /* other options */
-      sprite: [
-        {
-          debug: true,
-          src: [
-            'images/sprites/**/*.png'
-          ],
-          spritePath: 'assets/sprites.png',
-          stylesheetPath: 'assets/sprites.css',
-          stylesheet: 'css',
-          stylesheetOptions: {
-            prefix: 'icon-',
-            spritePath: '/assets/sprites.png',
-            pixelRatio: 2,
-          },
-          layoutOptions: {
-            padding: 2,
-          }
-        },
-        {
-          // optional additional sprite
-        }
-      ]
-    });
+```javascript
+var app = new EmberApp({
+  /* other options */
+  sprite: [
+    {
+      debug: true,
+      src: [
+        'images/sprites/**/*.png'
+      ],
+      spritePath: 'assets/sprites.png',
+      stylesheetPath: 'assets/sprites.css',
+      stylesheet: 'css',
+      stylesheetOptions: {
+        prefix: 'icon-',
+        spritePath: '/assets/sprites.png',
+        pixelRatio: 2,
+      },
+      layoutOptions: {
+        padding: 2,
+      }
+    }
+    // optional: more sprite sheet configurations
+    // , { ... }
+  ]
+});
+```
+
+## Full example
+
+```bash
+# New ember-cli application
+ember new ember-sprite-demo
+ember install ember-sprite
+
+# download images for spriting
+mkdir -p public/images/sprites
+curl https://upload.wikimedia.org/wikipedia/en/6/69/Ember.js_Logo_and_Mascot.png > public/images/sprites/emberjs.png
+curl https://iojs.org/images/1.0.0.png > public/images/sprites/iojs.png
+curl https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png > public/images/sprites/js.png
+
+# add images to main template
+echo '<div class="icon-emberjs"></div>' >> app/templates/application.hbs
+echo '<div class="icon-iojs"></div>' >> app/templates/application.hbs
+echo '<div class="icon-js"></div>' >> app/templates/application.hbs
+
+# modify `EmberApp` to add the sprite configuration shown above
+$EDITOR Brocfile.js
+
+# run the application
+ember server
+$BROWSER http://localhost:4200
+# check that sprited images appear
+```
 
 ## Road map
 
@@ -76,6 +104,7 @@ Maintained by [Brendan Graetz](http://github.com/bguiz)
 
 Additional contributions from:
 
+- [Dhaulagiri](https://github.com/Dhaulagiri)
 - [jmonster](https://github.com/jmonster)
 
 ## Licence
