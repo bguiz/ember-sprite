@@ -92,6 +92,17 @@ $BROWSER http://localhost:4200
 # check that sprited images appear
 ```
 
+Alternatively, you can clone this repository and run `ember server` to see a
+sample application that generates both a non-retina and retina sprite.  
+Code for this sample application resides in `tests/dummy`.
+
+## Road map
+
+- [x] Remove need to link additional stylesheet from `index.html`
+  - by concatenating the sprite sheet's CSS with the main app's CSS
+- [ ] Rerun upon file changes which trigger livereload
+
+
 ## Contributors
 
 Maintained by [Brendan Graetz](http://github.com/bguiz)
