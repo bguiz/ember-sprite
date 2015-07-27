@@ -92,12 +92,6 @@ $BROWSER http://localhost:4200
 # check that sprited images appear
 ```
 
-## Road map
-
-- [x] Remove need to link additional stylesheet from `index.html`
-  - by concatenating the sprite sheet's CSS with the main app's CSS
-- [ ] Rerun upon file changes which trigger livereload
-
 ## Contributors
 
 Maintained by [Brendan Graetz](http://github.com/bguiz)
