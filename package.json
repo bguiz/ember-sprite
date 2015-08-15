@@ -1,6 +1,6 @@
 {
   "name": "ember-sprite",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "description": "An ember addon which generates sprite sheets",
   "directories": {
     "doc": "doc",
@@ -15,7 +15,7 @@
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "Brendan Graetz <redacted@my.email> (http://bguiz.com)",
+  "author": "bguiz",
   "license": {
     "type": "GPL-3.0",
     "url": "http://opensource.org/licenses/GPL-3.0"
