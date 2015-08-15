@@ -36,7 +36,7 @@ The only thing that you need to do in addition is:
 - Add an array of sprite options for `broccoli-sprite` under `sprite` when instantiating `EmberApp`:
 
 For example, if the images you would like to be sprited are in `public/images/sprites`,
-you can configure your app, in `Brocfile.js`, like so:
+you can configure your app, in `ember-cli-build.js`, like so:
 
 ```javascript
 var app = new EmberApp({
@@ -84,13 +84,24 @@ echo '<div class="icon-iojs"></div>' >> app/templates/application.hbs
 echo '<div class="icon-js"></div>' >> app/templates/application.hbs
 
 # modify `EmberApp` to add the sprite configuration shown above
-$EDITOR Brocfile.js
+$EDITOR ember-cli-build.js
 
 # run the application
 ember server
 $BROWSER http://localhost:4200
 # check that sprited images appear
 ```
+
+Alternatively, you can clone this repository and run `ember server` to see a
+sample application that generates both a non-retina and retina sprite.  
+Code for this sample application resides in `tests/dummy`.
+
+## Road map
+
+- [x] Remove need to link additional stylesheet from `index.html`
+  - by concatenating the sprite sheet's CSS with the main app's CSS
+- [ ] Rerun upon file changes which trigger livereload
+
 
 ## Contributors
 
