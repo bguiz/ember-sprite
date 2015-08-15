@@ -17,11 +17,10 @@ As with any other ember addon, you simply need to run the install command:
 ember install ember-sprite
 ```
 
-In Ember CLI versions < 0.2.3, the install command should be:
-
-```sh
-ember install:addon ember-sprite
-```
+If you are still using Ember CLI < `v1.0`,
+please upgrade to the latest version.
+Check this package's version of `ember-cli` under `devDependencies`
+for the best compatibility.
 
 That is all!
 
@@ -65,7 +64,9 @@ var app = new EmberApp({
 });
 ```
 
-## Full example
+## Examples
+
+## From scratch
 
 ```bash
 # New ember-cli application
@@ -92,9 +93,15 @@ $BROWSER http://localhost:4200
 # check that sprited images appear
 ```
 
+### From bundled demo page
+
 Alternatively, you can clone this repository and run `ember server` to see a
-sample application that generates both a non-retina and retina sprite.  
-Code for this sample application resides in `tests/dummy`.
+sample application that generates both retina and non-retina sprites.
+
+```bash
+cd tests/dummy
+ember server
+```
 
 ## Road map
 
