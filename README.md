@@ -17,11 +17,10 @@ As with any other ember addon, you simply need to run the install command:
 ember install ember-sprite
 ```
 
-In Ember CLI versions < 0.2.3, the install command should be:
-
-```sh
-ember install:addon ember-sprite
-```
+If you are still using Ember CLI < `v1.0`,
+please upgrade to the latest version.
+Check this package's version of `ember-cli` under `devDependencies`
+for the best compatibility.
 
 That is all!
 
@@ -36,7 +35,7 @@ The only thing that you need to do in addition is:
 - Add an array of sprite options for `broccoli-sprite` under `sprite` when instantiating `EmberApp`:
 
 For example, if the images you would like to be sprited are in `public/images/sprites`,
-you can configure your app, in `Brocfile.js`, like so:
+you can configure your app, in `ember-cli-build.js`, like so:
 
 ```javascript
 var app = new EmberApp({
@@ -65,7 +64,9 @@ var app = new EmberApp({
 });
 ```
 
-## Full example
+## Examples
+
+## From scratch
 
 ```bash
 # New ember-cli application
@@ -84,13 +85,30 @@ echo '<div class="icon-iojs"></div>' >> app/templates/application.hbs
 echo '<div class="icon-js"></div>' >> app/templates/application.hbs
 
 # modify `EmberApp` to add the sprite configuration shown above
-$EDITOR Brocfile.js
+$EDITOR ember-cli-build.js
 
 # run the application
 ember server
 $BROWSER http://localhost:4200
 # check that sprited images appear
 ```
+
+### From bundled demo page
+
+Alternatively, you can clone this repository and run `ember server` to see a
+sample application that generates both retina and non-retina sprites.
+
+```bash
+cd tests/dummy
+ember server
+```
+
+## Road map
+
+- [x] Remove need to link additional stylesheet from `index.html`
+  - by concatenating the sprite sheet's CSS with the main app's CSS
+- [ ] Rerun upon file changes which trigger livereload
+
 
 ## Contributors
 
