@@ -1,6 +1,6 @@
 {
   "name": "ember-sprite",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "An ember addon which generates sprite sheets",
   "directories": {
     "doc": "doc",
@@ -44,14 +44,15 @@
     "image",
     "css",
     "sprite",
-    "spritesheet"
+    "spritesheet",
+    "optimise"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5",
     "broccoli-concat": "^2.0.4",
     "broccoli-file-remover": "^0.3.1",
     "broccoli-merge-trees": "^1.1.1",
-    "broccoli-sprite": "^0.2.0",
+    "broccoli-sprite": "^0.3.0",
     "broccoli-static-compiler": "^0.2.2"
   },
   "ember-addon": {
