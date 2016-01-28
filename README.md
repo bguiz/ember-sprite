@@ -56,7 +56,8 @@ var app = new EmberApp({
       },
       layoutOptions: {
         padding: 2,
-      }
+      },
+      optiping: (process.env.NODE_ENV === 'production'),
     }
     // optional: more sprite sheet configurations
     // , { ... }
