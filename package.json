@@ -13,7 +13,7 @@
   },
   "repository": "https://github.com/bguiz/ember-sprite",
   "engines": {
-    "node": "4.2.x"
+    "node": ">= 4.0.0"
   },
   "author": "bguiz",
   "license": {

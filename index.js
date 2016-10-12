@@ -61,6 +61,27 @@ function _processSprite(sprite, workingTree) {
     var appCssFile = 'assets/' +
       (this.app.name || this.app.project.pkg.name) + '.css';
     var spriteCssFile = sprite.stylesheetPath;
+
+    var header = sprite.stylesheetHeader;
+    var footer = sprite.stylesheetFooter;
+
+    var wrapperTree = brocConcat(workingTree, {
+      inputFiles: [
+        spriteCssFile,
+      ],
+      outputFile: spriteCssFile,
+      header: header,
+      footer: footer,
+      wrapInFunction: false
+    });
+
+    workingTree = brocMergeTrees([
+      workingTree,
+      wrapperTree
+    ], {
+      overwrite: true,
+    });
+
     var treeConcatCss = brocConcat(workingTree,  {
         inputFiles: [
             appCssFile,
