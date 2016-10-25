@@ -1,6 +1,6 @@
 {
   "name": "ember-sprite",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "An ember addon which generates sprite sheets",
   "directories": {
     "doc": "doc",
@@ -13,7 +13,7 @@
   },
   "repository": "https://github.com/bguiz/ember-sprite",
   "engines": {
-    "node": "4.2.x"
+    "node": ">=4.2.0"
   },
   "author": "bguiz",
   "license": {
