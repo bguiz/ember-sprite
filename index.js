@@ -1,11 +1,12 @@
+/* eslint-env node */
 'use strict';
 
-var util = require('util');
-var brocMergeTrees = require('broccoli-merge-trees');
-var brocConcat = require('broccoli-concat');
-var brocDelete = require('broccoli-file-remover');
-var brocPickFiles = require('broccoli-static-compiler');
-var brocSprite = require('broccoli-sprite');
+const util = require('util');
+const brocMergeTrees = require('broccoli-merge-trees');
+const brocConcat = require('broccoli-concat');
+const brocDelete = require('broccoli-file-remover');
+const brocPickFiles = require('broccoli-static-compiler');
+const brocSprite = require('broccoli-sprite');
 
 module.exports = {
   name: 'ember-sprite',
