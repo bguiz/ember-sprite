@@ -17,9 +17,21 @@ module.exports = {
 
 function treeFor( /*inTree*/ ) {}
 
+function getAppCSSOutputPath(options) {
+  let appCssOutputPath = options.outputPaths.app.css.app;
+
+  if(appCssOutputPath[0] === '/' ){
+    appCssOutputPath = appCssOutputPath.substr(1);
+  }
+
+  return appCssOutputPath;
+}
+
 function postprocessTree(type, workingTree) {
     if (type === 'all' && this.app.options.sprite) {
       var self = this;
+      // retrieves the app CSS output path
+      const appCssOutputPath = getAppCSSOutputPath(this.app.options);
 
       // for backwards compatibility to previous implementation that
       // passed plain object into sprite,
@@ -27,21 +39,21 @@ function postprocessTree(type, workingTree) {
       // process the sprite(s)
       if (Object.prototype.toString.call(this.app.options.sprite) ===
           '[object Object]') {
+
           var tmp = this.app.options.sprite;
           this.app.options.sprite = [];
           this.app.options.sprite.push(tmp);
       }
-
       // process each of the sprites that was passed in
       this.app.options.sprite.forEach(function eachSprite(sprite) {
-          workingTree = self._processSprite(sprite, workingTree);
+          workingTree = self._processSprite(sprite, workingTree, appCssOutputPath);
       });
     }
 
     return workingTree;
 }
 
-function _processSprite(sprite, workingTree) {
+function _processSprite(sprite, workingTree, appCssOutputPath) {
     var spriteTree = brocPickFiles(workingTree, {
         srcDir: '/',
         files: sprite.src,
@@ -59,15 +71,15 @@ function _processSprite(sprite, workingTree) {
 
     //sprites.css is appended to app.css,
     //so that two separate styles sheets do not need to get linked from index.html
-    var appCssFile = 'assets/' +
-      (this.app.name || this.app.project.pkg.name) + '.css';
+
     var spriteCssFile = sprite.stylesheetPath;
+
     var treeConcatCss = brocConcat(workingTree,  {
         inputFiles: [
-            appCssFile,
-            spriteCssFile
+          appCssOutputPath,
+          spriteCssFile
         ],
-        outputFile: '/'+appCssFile,
+        outputFile: "/" + appCssOutputPath,
         wrapInFunction: false,
     });
 
@@ -77,6 +89,7 @@ function _processSprite(sprite, workingTree) {
     ], {
         overwrite: true,
     });
+
     workingTree = brocDelete(workingTree, {
         files: [
             spriteCssFile
