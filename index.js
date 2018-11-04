@@ -2,11 +2,10 @@
 'use strict';
 
 const Funnel = require('broccoli-funnel');
-const util = require('util');
 const brocMergeTrees = require('broccoli-merge-trees');
-const brocConcat = require('broccoli-concat');
-const brocPickFiles = require('broccoli-static-compiler');
+const concat = require('broccoli-concat');
 const brocSprite = require('broccoli-sprite');
+const util = require('util');
 
 module.exports = {
   name: 'ember-sprite',
@@ -29,7 +28,7 @@ function getAppCSSOutputPath(options) {
 
 function postprocessTree(type, workingTree) {
     if (type === 'all' && this.app.options.sprite) {
-      var self = this;
+      let self = this;
       // retrieves the app CSS output path
       const appCssOutputPath = getAppCSSOutputPath(this.app.options);
 
@@ -40,7 +39,7 @@ function postprocessTree(type, workingTree) {
       if (Object.prototype.toString.call(this.app.options.sprite) ===
           '[object Object]') {
 
-          var tmp = this.app.options.sprite;
+          let tmp = this.app.options.sprite;
           this.app.options.sprite = [];
           this.app.options.sprite.push(tmp);
       }
@@ -54,10 +53,12 @@ function postprocessTree(type, workingTree) {
 }
 
 function _processSprite(sprite, workingTree, appCssOutputPath) {
-    var spriteTree = brocPickFiles(workingTree, {
-        srcDir: '/',
-        files: sprite.src,
-        destDir: '/',
+    let spriteTree = new Funnel(workingTree, {
+      srcDir: '/',
+      destDir: '/',
+      include: [
+        ...sprite.src
+      ],
     });
 
     if (!!sprite.debug) {
@@ -74,15 +75,14 @@ function _processSprite(sprite, workingTree, appCssOutputPath) {
     //sprites.css is appended to app.css,
     //so that two separate styles sheets do not need to get linked from index.html
 
-    var spriteCssFile = sprite.stylesheetPath;
+    let spriteCssFile = sprite.stylesheetPath;
 
-    var treeConcatCss = brocConcat(workingTree,  {
+    let treeConcatCss = concat(workingTree,  {
         inputFiles: [
           appCssOutputPath,
           spriteCssFile
         ],
-        outputFile: "/" + appCssOutputPath,
-        wrapInFunction: false,
+        outputFile: "/" + appCssOutputPath
     });
 
     workingTree = brocMergeTrees([
