@@ -1,10 +1,10 @@
 /* eslint-env node */
 'use strict';
 
+const Funnel = require('broccoli-funnel');
 const util = require('util');
 const brocMergeTrees = require('broccoli-merge-trees');
 const brocConcat = require('broccoli-concat');
-const brocDelete = require('broccoli-file-remover');
 const brocPickFiles = require('broccoli-static-compiler');
 const brocSprite = require('broccoli-sprite');
 
@@ -63,7 +63,9 @@ function _processSprite(sprite, workingTree, appCssOutputPath) {
     if (!!sprite.debug) {
         console.log('spriteTree', util.inspect(workingTree, false, 6, true));
     }
+
     spriteTree = brocSprite(spriteTree, sprite);
+
     workingTree = brocMergeTrees([
         workingTree,
         spriteTree
@@ -90,11 +92,15 @@ function _processSprite(sprite, workingTree, appCssOutputPath) {
         overwrite: true,
     });
 
-    workingTree = brocDelete(workingTree, {
-        files: [
-            spriteCssFile
-        ],
-    });
+    if (sprite.removeSrcFiles) {
+        workingTree = new Funnel(workingTree, {
+            exclude: [
+                spriteCssFile,
+                ...sprite.src
+          ]
+        });
+    }
+
 
     return workingTree;
 }

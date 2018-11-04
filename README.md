@@ -26,8 +26,10 @@ That is all!
 
 ## Configuration
 
-All the configuration options are exactly the same as those in
+All the configuration options are pretty much the same as those in
 [broccoli-sprite](https://github.com/bguiz/broccoli-sprite).
+There is an extra option `removeSrcFiles` which tells addon to remove
+source images after the sprite is finished.
 
 The only thing that you need to do in addition is:
 
@@ -46,6 +48,7 @@ var app = new EmberApp({
       src: [
         'images/sprites/**/*.png'
       ],
+      removeSrcFiles: true,
       spritePath: 'assets/sprites.png',
       stylesheetPath: 'assets/sprites.css',
       stylesheet: 'css',
