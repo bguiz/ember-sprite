@@ -1,12 +1,11 @@
 /* eslint-env node */
 'use strict';
 
-const util = require('util');
+const Funnel = require('broccoli-funnel');
 const brocMergeTrees = require('broccoli-merge-trees');
-const brocConcat = require('broccoli-concat');
-const brocDelete = require('broccoli-file-remover');
-const brocPickFiles = require('broccoli-static-compiler');
+const concat = require('broccoli-concat');
 const brocSprite = require('broccoli-sprite');
+const util = require('util');
 
 module.exports = {
   name: 'ember-sprite',
@@ -17,9 +16,21 @@ module.exports = {
 
 function treeFor( /*inTree*/ ) {}
 
+function getAppCSSOutputPath(options) {
+  let appCssOutputPath = options.outputPaths.app.css.app;
+
+  if(appCssOutputPath[0] === '/' ){
+    appCssOutputPath = appCssOutputPath.substr(1);
+  }
+
+  return appCssOutputPath;
+}
+
 function postprocessTree(type, workingTree) {
     if (type === 'all' && this.app.options.sprite) {
-      var self = this;
+      let self = this;
+      // retrieves the app CSS output path
+      const appCssOutputPath = getAppCSSOutputPath(this.app.options);
 
       // for backwards compatibility to previous implementation that
       // passed plain object into sprite,
@@ -27,31 +38,35 @@ function postprocessTree(type, workingTree) {
       // process the sprite(s)
       if (Object.prototype.toString.call(this.app.options.sprite) ===
           '[object Object]') {
-          var tmp = this.app.options.sprite;
+
+          let tmp = this.app.options.sprite;
           this.app.options.sprite = [];
           this.app.options.sprite.push(tmp);
       }
-
       // process each of the sprites that was passed in
       this.app.options.sprite.forEach(function eachSprite(sprite) {
-          workingTree = self._processSprite(sprite, workingTree);
+          workingTree = self._processSprite(sprite, workingTree, appCssOutputPath);
       });
     }
 
     return workingTree;
 }
 
-function _processSprite(sprite, workingTree) {
-    var spriteTree = brocPickFiles(workingTree, {
-        srcDir: '/',
-        files: sprite.src,
-        destDir: '/',
+function _processSprite(sprite, workingTree, appCssOutputPath) {
+    let spriteTree = new Funnel(workingTree, {
+      srcDir: '/',
+      destDir: '/',
+      include: [
+        ...sprite.src
+      ],
     });
 
     if (!!sprite.debug) {
         console.log('spriteTree', util.inspect(workingTree, false, 6, true));
     }
+
     spriteTree = brocSprite(spriteTree, sprite);
+
     workingTree = brocMergeTrees([
         workingTree,
         spriteTree
@@ -59,16 +74,15 @@ function _processSprite(sprite, workingTree) {
 
     //sprites.css is appended to app.css,
     //so that two separate styles sheets do not need to get linked from index.html
-    var appCssFile = 'assets/' +
-      (this.app.name || this.app.project.pkg.name) + '.css';
-    var spriteCssFile = sprite.stylesheetPath;
-    var treeConcatCss = brocConcat(workingTree,  {
+
+    let spriteCssFile = sprite.stylesheetPath;
+
+    let treeConcatCss = concat(workingTree,  {
         inputFiles: [
-            appCssFile,
-            spriteCssFile
+          appCssOutputPath,
+          spriteCssFile
         ],
-        outputFile: '/'+appCssFile,
-        wrapInFunction: false,
+        outputFile: "/" + appCssOutputPath
     });
 
     workingTree = brocMergeTrees([
@@ -77,11 +91,16 @@ function _processSprite(sprite, workingTree) {
     ], {
         overwrite: true,
     });
-    workingTree = brocDelete(workingTree, {
-        files: [
-            spriteCssFile
-        ],
-    });
+
+    if (sprite.removeSrcFiles) {
+        workingTree = new Funnel(workingTree, {
+            exclude: [
+                spriteCssFile,
+                ...sprite.src
+          ]
+        });
+    }
+
 
     return workingTree;
 }
